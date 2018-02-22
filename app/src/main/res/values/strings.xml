@@ -12,6 +12,8 @@
     <string name="create_edit_act_volunteer_name">Volunteer name</string>
     <string name="create_button_date">Pick a date</string>
     <string name="create_button_time">Set time</string>
+    <string name="create_text_date">Not set!</string>
+    <string name="create_text_time">Not set!</string>
     <string name="create_button_confirm">CREATE</string>
 
     <item name="visible" type="id"/>

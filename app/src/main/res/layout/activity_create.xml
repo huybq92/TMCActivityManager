@@ -91,7 +91,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="220dp"
         android:gravity="center"
-        android:text="TextView"
+        android:text="@string/create_text_date"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@id/create_button_date"
         app:layout_constraintTop_toBottomOf="@id/create_toolbar" />
@@ -112,11 +112,11 @@
         android:layout_height="48dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="270dp"
-        android:textSize="16sp"
         android:gravity="center"
-        android:text="TextView"
+        android:text="@string/create_text_time"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@id/create_button_time"
-        app:layout_constraintTop_toBottomOf="@id/create_toolbar"/>
+        app:layout_constraintTop_toBottomOf="@id/create_toolbar" />
 
     <TextView
         android:id="@+id/create_text_inform"
@@ -124,7 +124,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="350dp"
-        android:text="TextView"
         android:textColor="@android:color/holo_red_light"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
