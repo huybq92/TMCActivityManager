@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">TMC Activity Manager</string>
+
+    <string name="main_toolbar_title">Activity Managing Tool</string>
+    <string name="main_text">Select a button</string>>
+    <string name="main_button_create_text">Create new activity</string>
+    <string name="main_button_show_text">Show all activities</string>
+
+    <string name="create_toolbar_title">Create new activity</string>
+    <string name="create_edit_act_name">NAME OF ACTIVITY</string>
+    <string name="create_edit_act_location">Where it take place?</string>
+    <string name="create_edit_act_volunteer_name">Volunteer name</string>
+    <string name="create_button_date">Pick a date</string>
+    <string name="create_button_time">Set time</string>
+    <string name="create_button_confirm">CREATE</string>
+
+    <item name="visible" type="id"/>
+    <item name="masked" type="id"/>
+</resources>
