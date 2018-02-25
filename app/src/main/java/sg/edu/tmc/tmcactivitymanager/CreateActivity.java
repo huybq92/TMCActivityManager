@@ -1,27 +1,22 @@
 package sg.edu.tmc.tmcactivitymanager;
 
-import android.app.DatePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import android.widget.Toast;
 
 /**
  * Created by huybq on 7/2/2018.
  *
- * REFERENCE:
+ * REFERENCES:
  *  - For the DatePicker: https://www.numetriclabz.com/android-date-picker-tutorial/
+ *  - For the TimePicker: https://android--examples.blogspot.sg/2015/04/timepickerdialog-in-android.html
+ *  - For the Database: http://www.codebind.com/android-tutorials-and-examples/android-sqlite-tutorial-example/
  */
 
 public class CreateActivity extends AppCompatActivity {
@@ -29,13 +24,17 @@ public class CreateActivity extends AppCompatActivity {
     // Views declaration
     private Toolbar createToolbar;
     private Button create_button_confirm, create_button_date, create_button_time;
-    private TextView create_text_inform;
+    private TextView create_text_date, create_text_time;
+    private EditText create_edit_act_name, create_edit_act_location, create_edit_act_volunteer_name;
 
-    // Private variables
+    // Private static variables
     private static int day,month,year;
     private static int hour,minute;
 
-    // Listener for the DatePicker button
+    // Database object
+    protected static DatabaseTable db;
+
+    // Listener object for the DatePicker button
     private View.OnClickListener datePickerButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -45,7 +44,7 @@ public class CreateActivity extends AppCompatActivity {
         }
     };
 
-    // Listener for the TimePicker button
+    // Listener object for the TimePicker button
     private View.OnClickListener timePickerButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -55,7 +54,31 @@ public class CreateActivity extends AppCompatActivity {
         }
     };
 
-    // Methods to set private variables
+    // Listener object for CREATE button
+    private View.OnClickListener createButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            // Make sure all the required fields are filled
+            if ( validateCreateForm() ) {
+                // If validation is OK, show the confirmation dialog to user for review entered information
+                DialogFragment newCreateConfirmationDialogFragment = new CreateConfirmationDialogFragment();
+                newCreateConfirmationDialogFragment.show(getSupportFragmentManager(), "createConfirmation");
+            } else {
+                // Otherwise, display toast message to user
+                Toast.makeText(getApplicationContext(), "Please fill in all the required forms !", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    // Method to validate the form inputs
+    // - Activity name, date and volunteer name are compulsory
+    protected boolean validateCreateForm () {
+        return !(create_edit_act_name.getText().toString().matches("")
+                || create_edit_act_volunteer_name.getText().toString().matches("")
+                || create_text_date.getText().toString().equals("Not set!"));
+    }
+
+    // Methods to SET private variables
     protected static void setDay(int d) {
         CreateActivity.day = d;
     }
@@ -72,7 +95,7 @@ public class CreateActivity extends AppCompatActivity {
         CreateActivity.minute = M;
     }
 
-    // Methods to get private variables
+    // Methods to GET private variables
     protected static int getDay() {
         return CreateActivity.day;
     }
@@ -89,16 +112,21 @@ public class CreateActivity extends AppCompatActivity {
         return CreateActivity.minute;
     }
 
+
+    // MUST-HAVE DEFAULT
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
+        // Create db object
+        db = new DatabaseTable(this);
+
         //Initiate the toolbar and set properties
         createToolbar = findViewById(R.id.create_toolbar);
-        createToolbar.setTitle(R.string.create_toolbar_title);
+            createToolbar.setTitle(R.string.create_toolbar_title);
         setSupportActionBar(createToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Enable Up action
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // enable Up action in the toolbar
 
         // Initiate the Buttons and set Listeners
         create_button_date = findViewById(R.id.create_button_date);
@@ -106,9 +134,17 @@ public class CreateActivity extends AppCompatActivity {
         create_button_time = findViewById(R.id.create_button_time);
             create_button_time.setOnClickListener(timePickerButtonListener);
         create_button_confirm = findViewById(R.id.create_button_confirm);
+            create_button_confirm.setOnClickListener(createButtonListener);
 
-        //Initiate the TextView
-        create_text_inform = findViewById(R.id.create_text_inform);
+        // Initiate the EditTexts
+        create_edit_act_name = findViewById(R.id.create_edit_act_name);
+        create_edit_act_location = findViewById(R.id.create_edit_act_location);
+        create_edit_act_volunteer_name = findViewById(R.id.create_edit_act_volunteer_name);
 
+        //Initiate the date + time TextViews
+        create_text_date = findViewById(R.id.create_text_date);
+        create_text_time = findViewById(R.id.create_text_time);
     }
+
+// class ends
 }

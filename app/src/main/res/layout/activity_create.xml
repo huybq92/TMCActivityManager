@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -34,6 +33,7 @@
             android:layout_height="match_parent"
             android:hint="@string/create_edit_act_name"
             android:singleLine="true" />
+
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -124,9 +124,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="350dp"
+        android:layout_marginEnd="30dp"
         android:textColor="@android:color/holo_red_light"
-        android:textSize="16sp"
+        android:textSize="14sp"
+        android:text="@string/create_text_required"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/create_toolbar" />
 
     <Button
