@@ -11,19 +11,25 @@ public class MainActivity extends AppCompatActivity {
 
     //Views declaration
     private Toolbar mainToolbar;
-    private Button btn_create, btn_show;
+    private Button btn_create, btn_show, btn_dont_press_me;
+
+    // Database object
+    protected static DatabaseTable db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Create db object
+        db = new DatabaseTable(this);
+
         //Initiate the toolbar and setup
         mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setTitle(R.string.main_toolbar_title);
 
-        //Initiate the 2 buttons, then add listener
+        //Initiate the buttons, then add listeners
         btn_create = (Button) findViewById(R.id.main_button_create);
         btn_create.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ShowActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_dont_press_me = (Button) findViewById(R.id.main_button_dont_press_me);
+        btn_dont_press_me.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), NameEntryApp.class);
                 startActivity(intent);
             }
         });

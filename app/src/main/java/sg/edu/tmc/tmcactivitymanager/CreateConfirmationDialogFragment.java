@@ -4,11 +4,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +18,7 @@ import android.widget.Toast;
  */
 
 public class CreateConfirmationDialogFragment extends DialogFragment {
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -69,8 +68,7 @@ public class CreateConfirmationDialogFragment extends DialogFragment {
                 .setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // insert data
-                        boolean isInserted = CreateActivity.db.addActivity(act_name, act_location, datetime, act_volunteer_name);
-
+                        boolean isInserted = MainActivity.db.addActivity(act_name, act_location, datetime, act_volunteer_name);
                         if ( isInserted )
                             Toast.makeText(getActivity(),"Inserted successfully!", Toast.LENGTH_SHORT).show();
                         else

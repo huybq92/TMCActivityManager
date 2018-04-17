@@ -2,17 +2,9 @@ package sg.edu.tmc.tmcactivitymanager;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.text.TextUtils;
-import android.util.Log;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 /**
  * Created by huybq on 22/2/2018.
@@ -49,13 +41,13 @@ public class DatabaseTable extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE_ACTIVITY =
-                "CREATE TABLE " + TABLE_NAME +
-                "(" +
-                        COL_ACT_ID + " INTEGER PRIMARY KEY," +
-                        COL_ACT_NAME + " TEXT NOT NULL," +
+                "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
+                "( " +
+                        COL_ACT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        COL_ACT_NAME + " TEXT," +
                         COL_ACT_LOCATION + " TEXT," +
                         COL_ACT_DATETIME + " TEXT," +
-                        COL_ACT_VOLUNTEER_NAME + ", TEXT" +
+                        COL_ACT_VOLUNTEER_NAME + " TEXT" +
                 ")";
         db.execSQL(CREATE_TABLE_ACTIVITY); // execute above SQL command
     }
@@ -74,7 +66,6 @@ public class DatabaseTable extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-
     //##################
     //# CUSTOM METHODS #
     //##################
@@ -84,6 +75,7 @@ public class DatabaseTable extends SQLiteOpenHelper {
     boolean addActivity(String act_name, String act_location, String act_datetime, String act_volunteer_name) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        // The COL_ACT_ID is the primary key ==> Java doesn't fill it. Instead, SQLite does automatically.
         contentValues.put(COL_ACT_NAME, act_name);
         contentValues.put(COL_ACT_LOCATION, act_location);
         contentValues.put(COL_ACT_DATETIME, act_datetime);
@@ -96,28 +88,22 @@ public class DatabaseTable extends SQLiteOpenHelper {
 
     // Method to query all data from 'ACTIVITY' table
     protected Cursor getAllData () {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME,null);
         return res;
     }
 
-    // Method to update a certain record according to 'act_id' primary key
-    protected boolean updateData (String act_id, String act_name, String act_location, String act_datetime, String act_volunteer_name) {
+    // Method to query only activity name from 'ACTIVITY' table
+    protected Cursor getAllActivity () {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_ACT_NAME, act_id);
-        contentValues.put(COL_ACT_NAME, act_name);
-        contentValues.put(COL_ACT_LOCATION, act_location);
-        contentValues.put(COL_ACT_DATETIME, act_datetime);
-        contentValues.put(COL_ACT_VOLUNTEER_NAME, act_volunteer_name);
-        db.update(TABLE_NAME, contentValues, "ID = ?",new String[] { act_id });
-        return true;
+        String sql_command = "SELECT ACT_NAME AS _id FROM " + TABLE_NAME;
+        Cursor res = db.rawQuery(sql_command,null);
+        return res;
     }
 
-    // Method to delete certain record according to 'act_id'
-    protected Integer deleteData (String act_id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NAME, "ID = ?",new String[] {act_id});
+    // method to get the COL_ACT_NAME private variable
+    protected String getColActName() {
+        return COL_ACT_NAME;
     }
 
 // class ends
